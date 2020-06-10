@@ -4,6 +4,8 @@ import {
     personalized,
     privatecontent,
     getPlaylist,
+    getSongDetail,
+    getSongUrl
 } from './config'
 axios.defaults.withCredentials = false;
 axios.defaults.baseURL = 'http://120.77.242.209'
@@ -31,5 +33,11 @@ export default {
     },
     getPlaylist(id){
         return install.get(getPlaylist+id)
+    },
+    getSongDetail(id){
+        return install.get(getSongDetail + id)
+    },
+    getSongUrl(id){
+        return install.get(getSongUrl+id)
     }
 }

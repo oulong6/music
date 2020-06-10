@@ -4,20 +4,32 @@
         <div class="main-a">
             <sidebar/>
             <div class="right-a">
-                <router-view></router-view>
+                    <router-view></router-view>
             </div>
         </div>
+        <mini-player></mini-player>
     </div>
 </template>
 
 <script>
     import header from '@/components/header';
     import sidebar from '@/components/sidebar';
+    import miniPlayer from '@/components/miniPlayer'
+
     export default {
         name: 'App',
         components: {
             'header-a': header,
              sidebar,
+            miniPlayer
+        },
+        beforeDestroy(){
+            console.log('app destroy')
+        },
+        computed: {
+            singId(){
+                return this.$store.getters.getSongId
+            }
         }
     }
 </script>
@@ -33,6 +45,7 @@
     }
     body {
         margin: 0;
+
     }
     .main-a {
         position: absolute;

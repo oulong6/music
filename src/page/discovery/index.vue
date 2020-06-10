@@ -1,9 +1,7 @@
 <template>
     <div class="discovery">
         <nva-a/>
-        <keep-alive>
-            <router-view></router-view>
-        </keep-alive>
+        <router-view></router-view>
     </div>
 </template>
 

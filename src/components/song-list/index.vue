@@ -94,6 +94,8 @@
             }
             .img {
                 position: relative;
+                height: 14rem;
+                background-color: #f9f9f9;
                 img {
                     width: 100%;
                     height: 100%;

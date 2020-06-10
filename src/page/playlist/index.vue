@@ -23,7 +23,7 @@
                     <p class="nickname">{{playlist.creator.nickname}}</p>
                 </div>
                 <div class="play-wrap">
-                    <div class="all-play">
+                    <div class="all-play" @click="allPlay">
                         <i class="iconfont icon-bofang3"></i>
                         全部播放
                     </div>
@@ -32,35 +32,69 @@
                     <div class="tag">
                         标签: <span v-for="tag in playlist.tags" :key="tag">{{tag}}</span>
                     </div>
-                    <div class="description">
+                    <div  :class="{'description-active':!isShow,description: isShow}">
                         简介: {{playlist.description}}
                     </div>
-                    <div class="show" v-if="playlist.description.length > 150" @click="handleShow">
+                    <div class="show" v-if="playlist.description.length > 150" @click="isShow = !isShow">
                         <i class="iconfont icon-go"></i>
                     </div>
                 </div>
             </div>
         </div>
+        <songs :songDetail="songDetail"></songs>
     </div>
 </template>
 
 <script>
+    import songs from '@/components/songs'
     export default {
         name: "",
         data(){
           return {
-              playlist: undefined
+              playlist: null,
+              isShow: false,
+              list: null,
+              songDetail: []
           }
         },
         mounted(){
             this.$api.getPlaylist(this.$route.params.playlistID).then(data=>{
                 this.playlist = data.playlist
+                let list = {};
+                let playlist = data.playlist;
+                list.coverImgUrl = playlist.coverImgUrl;
+                list.name = playlist.name;
+                list.creator = {}
+                list.creator.avatarUrl = playlist.creator.avatarUrl;
+                list.tags = playlist.tags;
+                list.description = playlist.description;
+                for(let i=0;i<playlist.trackIds.length;i++){
+                    this.$api.getSongDetail(this.trackIds[i].id).then(data=>{
+                        let song = {};
+                        song.name = data.songs[0].name;
+                        song.id = data.songs[0].id;
+                        song.singer = data.songs[0].ar[0].name;
+                        song.picUrl = data.songs[0].al.picUrl;
+                        song.albumName = data.songs[0].al.name
+                        this.songDetail.splice(i,0,song)
+                    })
+                }
             })
-            let date = new Date(1023266411576);
-            console.log(date.getFullYear())
+        },
+        computed: {
+            trackIds(){
+             return this.playlist.trackIds
+
+          }
         },
         methods: {
-
+            handleShow(){},
+            allPlay(){
+                this.$store.dispatch('updateSongStore',{songs: this.songDetail,action: 'start'})
+            }
+        },
+        components: {
+            songs
         }
     }
 </script>
@@ -81,7 +115,6 @@
                 }
             }
             .right {
-                height: 14rem;
                 flex: 1;
                 margin-left: 1rem;
                 .playlist {
@@ -151,19 +184,25 @@
                             margin: 0 .2rem;
                         }
                     }
+
+                    .description-active {
+                        display: -webkit-box;
+                        margin-right: 3rem;
+                        -webkit-box-orient: vertical;
+                        -webkit-line-clamp: 3;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
                     .description {
                         margin: .4rem 0;
-                        display: -webkit-box;
+
                         padding-right: 6rem;
-                        text-overflow: ellipsis;
-                        overflow: hidden;
-                        -webkit-box-orient: vertical;
-                        -webkit-line-clamp: 2;
+                        white-space: pre-line;
                     }
                     .show {
                         position: absolute;
                         right: 2rem;
-                        top: 2rem;
+                        top: 0rem;
                         transform: rotate(90deg);
                     }
                 }

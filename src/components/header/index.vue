@@ -13,10 +13,10 @@
                </div>
            </div>
             <div class="history">
-                <div class="black">
+                <div class="black" @click="black">
                     <i class="iconfont icon-houtui"></i>
                 </div>
-                <div class="go">
+                <div class="go" @click="go">
                     <i class="iconfont icon-go"></i>
                 </div>
             </div>
@@ -72,6 +72,12 @@
             },
             changTheme(e){
                this.theme = e.target.dataset.color;
+            },
+            black(){
+                this.$router.go(-1)
+            },
+            go(){
+                this.$router.go(1)
             }
         }
     }

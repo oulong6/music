@@ -1,6 +1,6 @@
 <template>
     <div class="personality">
-        <div class="personality-body">
+        <div v-show="videos.length>0" class="personality-body">
             <div class="ff" v-if="images.length>0">
                 <el-carousel :interval="4000" type="card" height="200px">
                     <el-carousel-item v-for="(image,index) in images" :key="'el'+index">

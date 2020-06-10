@@ -4,7 +4,9 @@ const api = 'https://api.mtnhao.com'
 export const bannerSwiper ='/banner?type=0' // 请求发现页面轮播图
 export const personalized = `/personalized?limit=10` //发现页推荐歌曲
 export const privatecontent = '/personalized/privatecontent' //独家放送
-export const getPlaylist = 'playlist/detail?id=' //获取歌单列表
+export const getPlaylist = '/playlist/detail?id=' //获取歌单列表
+export const getSongDetail = '/song/detail?ids=' //获取歌曲详情
+export const getSongUrl = '/song/url?id=' //获取歌曲URL
 
 export const recSongList = api + '/top/playlist' // 推荐歌单，歌单广场
 export const highquality = api + '/top/playlist/highquality' // 精品歌单
