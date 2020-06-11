@@ -20,7 +20,7 @@
             <div class="title">{{song.name}}</div>
             <div class="singer gray">{{song.singer}}</div>
             <div class="album gray">{{song.albumName}}</div>
-            <div class="time">3.45</div>
+            <div class="time">{{song.dt | dt}}</div>
         </div>
     </div>
 </template>
@@ -50,7 +50,7 @@
                 return value.map(item=>{
                     return item.name
                 }).join('/')
-            }
+            },
         }
     }
 </script>

@@ -15,7 +15,7 @@
     import header from '@/components/header';
     import sidebar from '@/components/sidebar';
     import miniPlayer from '@/components/miniPlayer'
-
+    import {mapGetters,mapMutations,mapActions} from 'vuex'
     export default {
         name: 'App',
         components: {
@@ -23,13 +23,18 @@
              sidebar,
             miniPlayer
         },
-        beforeDestroy(){
-            console.log('app destroy')
+        mounted(){
+            console.log(this)
         },
         computed: {
             singId(){
                 return this.$store.getters.getSongId
-            }
+            },
+            ...mapGetters({getSongId: 'getSongId','getSongIndex' : 'getSongIndex'})
+        },
+        methods: {
+            ...mapMutations({updateSongId:'updateSongId'}),
+            ...mapActions(['updateSongId'])
         }
     }
 </script>

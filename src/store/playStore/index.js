@@ -73,7 +73,7 @@ const playStore = {
         },
         updateSongId(context,id){
             context.commit('updateSongId',id)
-        }
+        },
     }
 }
 export default playStore;

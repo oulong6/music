@@ -6,10 +6,14 @@ import  {Carousel,CarouselItem} from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css';
 import router from '@/router/ll'
 import api from '@/api'
+var moment = require('moment')
 Vue.config.productionTip = false
 Vue.prototype.$api = api
 Vue.use(Carousel)
 Vue.use(CarouselItem)
+Vue.filter('dt',function (value) {
+  return moment(value).format('mm:ss')
+})
 window.$vm = new Vue({
   render: h => h(App),
   router,

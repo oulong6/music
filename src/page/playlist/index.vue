@@ -48,7 +48,7 @@
 <script>
     import songs from '@/components/songs'
     export default {
-        name: "",
+        name: "playlist",
         data(){
           return {
               playlist: null,
@@ -76,6 +76,7 @@
                         song.singer = data.songs[0].ar[0].name;
                         song.picUrl = data.songs[0].al.picUrl;
                         song.albumName = data.songs[0].al.name
+                        song.dt = data.songs[0].dt;
                         this.songDetail.splice(i,0,song)
                     })
                 }

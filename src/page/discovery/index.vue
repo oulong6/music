@@ -1,7 +1,9 @@
 <template>
     <div class="discovery">
         <nva-a/>
-        <router-view></router-view>
+        <keep-alive :exclude="['playlist']">
+            <router-view></router-view>
+        </keep-alive>
     </div>
 </template>
 
@@ -19,6 +21,9 @@
         },
         components: {
             'nva-a':nva
+        },
+        activated(){
+            console.log('d')
         }
 
     }

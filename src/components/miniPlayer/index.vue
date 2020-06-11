@@ -7,13 +7,14 @@
             <div class="info">
                 <span class="name">{{song.name}}</span>
                 <span class="singer">{{song.singer}}</span>
+                <span class="time" v-if="song">{{song.dt | dt}}</span>
             </div>
         </div>
         <div class="control">
             <div class="before" @click="preSong">
                 <i class="iconfont icon-iconfontsvgprevious"></i>
             </div>
-            <div class="play-state" @click="stateTrigger">
+            <div class="play-state" @click="triggerPlayState">
                 <i class="iconfont" :class="icon"></i>
             </div>
             <div class="next" @click="nextSong">
@@ -23,28 +24,31 @@
         <div class="right"></div>
         <audio ref="audio" :src="songUrl" autoplay></audio>
         <div class="progress-box">
-            <progressbar></progressbar>
+            <progressbar :play-state="playstate" :time="song.dt" @currentTime="playTime"></progressbar>
         </div>
     </div>
 </template>
 
 <script>
     import progressbar from '@/components/progressbar'
+    import {dateFormat} from '@/util'
     export default {
         name: "",
         data(){
             return {
                 songUrl: '',
                 icon: 'icon-play',
-                song: {}
+                song: {},
+                stop: false,
+                playstate: false,
+                playSate: false
             }
         },
         mounted(){
             this.$refs.audio.onended = ()=>{
                 this.nextSong();
             }
-            this.$refs.audio.addEventListener('play',function (event) {
-                console.log(event)
+            this.$refs.audio.addEventListener('play',function () {
             })
         },
         components: {
@@ -53,6 +57,9 @@
         computed: {
             songId: function () {
                 return this.$store.getters.getSongId;
+            },
+            dt(){
+                return dateFormat(this.song.dt)
             }
         },
         watch: {
@@ -64,6 +71,9 @@
                     this.songUrl = data.data[0].url;
                 })
                 this.song = this.$store.getters.getSongByIndex(this.$store.getters.getSongIndex)
+            },
+            'playState': function (state) {
+                console.log(state)
             }
         },
         methods: {
@@ -75,8 +85,15 @@
             },
             stateTrigger(){
                 let audio = this.$refs.audio;
+                audio.paused ? this.playstate = true : this.playstate = false
                 audio.paused ? audio.play() : audio.pause()
-                audio.paused ? this.icon = 'icon-play' :this.icon = 'icon-bofangzanting'
+                audio.paused ? this.icon = 'icon-play' :this.icon = 'icon-bofangzanting';
+            },
+            playTime(value){
+                this.$refs.audio.currentTime = value
+            },
+            triggerPlayState(){
+                this.playState = true
             }
         }
     }
