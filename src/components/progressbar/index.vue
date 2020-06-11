@@ -24,6 +24,7 @@
               trigger: false,
               scaleX: 0,
               timer: null,
+              scale: 0
           }
         },
 
@@ -45,18 +46,18 @@
             }
         },
         watch: {
-            'time': function (value) {
-                clearInterval(this.timer)
-                this.scaleX = 0;
-                this.scale = 1 / (value/1000) / 2;
-                this.timer = setInterval(()=>{
-                    if (this.scaleX>= 1) clearInterval(this.timer)
-                    this.scaleX = this.scaleX + this.scale
-                },500)
-            },
-            'playState': function (value) {
-                console.log(value)
-
+            'playState': function (state) {
+                if (state === false){
+                    clearInterval(this.timer)
+                    console.log(state,this.timer)
+                }else {
+                    clearInterval(this.timer)
+                    this.scale = 1 / (this.time/1000) / 2;
+                    this.timer = setInterval(()=>{
+                        if (this.scaleX>= 1) clearInterval(this.timer)
+                        this.scaleX = this.scaleX + this.scale
+                    },500)
+                }
             }
         }
     }
@@ -67,13 +68,12 @@
         display: flex;
         align-items: center;
         height: 1rem;
-        background-color: rgba(0,0,0,.4);
         outline: none;
         .progress {
             flex: 1;
             position: relative;
             height: .2rem;
-            background-color: red;
+            background-color: rgb(237, 101, 90);
             transform: scaleX(0.1);
             transform-origin: 0 100%;
         }

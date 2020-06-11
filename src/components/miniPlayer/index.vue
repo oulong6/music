@@ -22,16 +22,15 @@
             </div>
         </div>
         <div class="right"></div>
-        <audio ref="audio" :src="songUrl" autoplay></audio>
+        <audio ref="audio" :src="songUrl"></audio>
         <div class="progress-box">
-            <progressbar :play-state="playstate" :time="song.dt" @currentTime="playTime"></progressbar>
+            <progressbar :play-state="playState" :time="song.dt" @currentTime="playTime"></progressbar>
         </div>
     </div>
 </template>
 
 <script>
     import progressbar from '@/components/progressbar'
-    import {dateFormat} from '@/util'
     export default {
         name: "",
         data(){
@@ -40,8 +39,8 @@
                 icon: 'icon-play',
                 song: {},
                 stop: false,
-                playstate: false,
-                playSate: false
+                playState: false,
+                audio: null,
             }
         },
         mounted(){
@@ -50,6 +49,11 @@
             }
             this.$refs.audio.addEventListener('play',function () {
             })
+            this.audio = this.$refs.audio;
+            this.audio.oncanplay =  () =>{
+                this.audio.play()
+                this.playState = true
+            }
         },
         components: {
             progressbar
@@ -57,13 +61,11 @@
         computed: {
             songId: function () {
                 return this.$store.getters.getSongId;
-            },
-            dt(){
-                return dateFormat(this.song.dt)
             }
         },
         watch: {
             'songId': function (id) {
+                this.songUrl = ''
                 if (id !== 0){
                     this.icon = 'icon-bofangzanting'
                 }
@@ -71,9 +73,18 @@
                     this.songUrl = data.data[0].url;
                 })
                 this.song = this.$store.getters.getSongByIndex(this.$store.getters.getSongIndex)
+                this.audio.pause()
+                this.playState = false
+                this.$children[0].scaleX = 0
             },
             'playState': function (state) {
-                console.log(state)
+                if (state){
+                    this.audio.play()
+                    this.icon = 'icon-bofangzanting'
+                }else {
+                    this.audio.pause()
+                    this.icon = 'icon-play';
+                }
             }
         },
         methods: {
@@ -83,17 +94,11 @@
             preSong(){
                 this.$store.dispatch('preSong');
             },
-            stateTrigger(){
-                let audio = this.$refs.audio;
-                audio.paused ? this.playstate = true : this.playstate = false
-                audio.paused ? audio.play() : audio.pause()
-                audio.paused ? this.icon = 'icon-play' :this.icon = 'icon-bofangzanting';
-            },
             playTime(value){
                 this.$refs.audio.currentTime = value
             },
             triggerPlayState(){
-                this.playState = true
+                this.playState = !this.playState
             }
         }
     }
