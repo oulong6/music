@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import store from "@/store";
+import imageLazyLoading from '@/plugins/imageLazyLoading'
 import '@/assets/icon-font/iconfont.css'
 import  {Carousel,CarouselItem} from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css';
@@ -11,6 +12,7 @@ Vue.config.productionTip = false
 Vue.prototype.$api = api
 Vue.use(Carousel)
 Vue.use(CarouselItem)
+Vue.use(imageLazyLoading,{loading: 'loading', error: 'error'})
 Vue.filter('dt',function (value) {
   return moment(value).format('mm:ss')
 })

@@ -14,7 +14,7 @@
 <!--                <i class="iconfont " :class="{'icon-weibiaoti&#45;&#45;1': song.id === songId}"></i>-->
             </div>
             <div class="img">
-                <img :src="song.picUrl" alt="">
+                <img  alt="" v-lazy-loading :data-src="song.picUrl">
                 <i class="iconfont icon-bofang3"></i>
             </div>
             <div class="title">{{song.name}}</div>
@@ -26,11 +26,17 @@
 </template>
 
 <script>
+    import me from '@/assets/me.png'
     export default {
         name: "",
         props: {
             songDetail: {
                 type: Array
+            }
+        },
+        data(){
+            return {
+                me
             }
         },
         computed: {
@@ -107,6 +113,7 @@
                 width: 4rem;
                 height: 4rem;
                 object-fit: cover;
+                background-color: whitesmoke;
             }
             .iconfont {
                 position: absolute;

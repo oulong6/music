@@ -10,6 +10,8 @@ import newMusic from '@/page/discovery/new-music'
 import playlist from '@/page/playlist'
 Vue.use(VueRouter)
 export default new VueRouter({
+    mode: 'history',
+    base: '/music/',
     routes: [
         {
             path: '/discovery',

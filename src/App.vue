@@ -3,7 +3,7 @@
         <header-a/>
         <div class="main-a">
             <sidebar/>
-            <div class="right-a">
+            <div class="right-a" v-lazy-loading-parent>
                     <router-view></router-view>
             </div>
         </div>
@@ -24,7 +24,6 @@
             miniPlayer
         },
         mounted(){
-            console.log(this)
         },
         computed: {
             singId(){
@@ -42,7 +41,7 @@
 <style lang="scss">
 
     #app {
-        height: 100%;
+        height: 100vh;
         min-width: 60vw;
     }
     html {
@@ -57,7 +56,7 @@
         top: 3.4rem;
         left: 0;
         right: 0;
-        bottom: 0;
+        bottom: 4rem;
     }
   .main-a .right-a {
      position: absolute;

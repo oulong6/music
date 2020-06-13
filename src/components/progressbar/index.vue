@@ -49,7 +49,6 @@
             'playState': function (state) {
                 if (state === false){
                     clearInterval(this.timer)
-                    console.log(state,this.timer)
                 }else {
                     clearInterval(this.timer)
                     this.scale = 1 / (this.time/1000) / 2;
