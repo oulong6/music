@@ -1,7 +1,7 @@
 <template>
     <div class="mini-player">
         <div class="song">
-            <div class="img">
+            <div class="img" @click="triggerShow">
                 <img :src="song.picUrl" alt="">
             </div>
             <div class="info">
@@ -11,13 +11,13 @@
             </div>
         </div>
         <div class="control">
-            <div class="before" @click="preSong">
+            <div class="before" @click="preSong();stopa()">
                 <i class="iconfont icon-iconfontsvgprevious"></i>
             </div>
             <div class="play-state" @click="triggerPlayState">
                 <i class="iconfont" :class="icon"></i>
             </div>
-            <div class="next" @click="nextSong">
+            <div class="next" @click="nextSong();stopa()">
                 <i class="iconfont icon-iconfontsvgnext"></i>
             </div>
         </div>
@@ -30,7 +30,8 @@
 </template>
 
 <script>
-    import progressbar from '@/components/progressbar'
+    import progressbar from '@/components/progressbar';
+    import {mapGetters,mapActions} from 'vuex'
     export default {
         name: "",
         data(){
@@ -53,6 +54,7 @@
             this.audio.oncanplay =  () =>{
                 this.audio.play()
                 this.playState = true
+                this.ChangePlay(true)
             }
         },
         components: {
@@ -60,8 +62,11 @@
         },
         computed: {
             songId: function () {
-                return this.$store.getters.getSongId;
-            }
+                return this.getSongId;
+            },
+            // ...mapGetters({getSongId: 'playStore/getSongId'}),
+            // ...mapGetters({songIndex: 'playStore/getSongIndex',getSongByIndex: 'playStore/getSongByIndex'}),
+            ...mapGetters('playStore',['getSongId','getSongIndex','getSongByIndex'])
         },
         watch: {
             'songId': function (id) {
@@ -72,7 +77,7 @@
                 this.$api.getSongUrl(id).then(data=>{
                     this.songUrl = data.data[0].url;
                 })
-                this.song = this.$store.getters.getSongByIndex(this.$store.getters.getSongIndex)
+                this.song = this.getSongByIndex(this.getSongIndex)
                 this.audio.pause()
                 this.playState = false
                 this.$children[0].scaleX = 0
@@ -88,18 +93,17 @@
             }
         },
         methods: {
-            nextSong(){
-                this.$store.dispatch('nextSong');
-            },
-            preSong(){
-                this.$store.dispatch('preSong');
-            },
             playTime(value){
                 this.$refs.audio.currentTime = value
             },
             triggerPlayState(){
                 this.playState = !this.playState
-            }
+                this.ChangePlay(!this.$store.state.player.isPlay)
+            },
+            stopa(){
+                this.ChangePlay(false)
+            },
+            ...mapActions({nextSong: 'playStore/nextSong',preSong: 'playStore/preSong',triggerShow: 'player/triggerShow',ChangePlay: 'player/ChangePlay'}),
         }
     }
 </script>
@@ -113,6 +117,8 @@
         height: 4rem;
         display: flex;
         background-color: #ffffff;
+        box-shadow: 0px -1px 1px #c0bebe;
+        z-index: 999;
         .song {
             flex: 4;
             display: flex;

@@ -26,7 +26,8 @@
 </template>
 
 <script>
-    import me from '@/assets/me.png'
+    import me from '@/assets/me.png';
+    import {mapGetters,mapActions} from 'vuex'
     export default {
         name: "",
         props: {
@@ -41,15 +42,17 @@
         },
         computed: {
           songId(){
-              return this.$store.getters.getSongId
-          }
+              return this.getSongId
+          },
+            ...mapGetters({getSongId: 'playStore/getSongId'})
         },
         watch: {
         },
         methods: {
           play(index){
-              this.$store.dispatch('updateSongStore',{songs: this.songDetail,action: 'current',index: index})
-          }
+              this.updateSongStore({songs: this.songDetail,action: 'current',index: index})
+          },
+            ...mapActions({updateSongStore: 'playStore/updateSongStore'})
         },
         filters: {
             singer:function (value) {

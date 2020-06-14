@@ -46,7 +46,8 @@
 </template>
 
 <script>
-    import songs from '@/components/songs'
+    import songs from '@/components/songs';
+    import {mapActions} from 'vuex'
     export default {
         name: "playlist",
         data(){
@@ -91,8 +92,9 @@
         methods: {
             handleShow(){},
             allPlay(){
-                this.$store.dispatch('updateSongStore',{songs: this.songDetail,action: 'start'})
-            }
+               this.updateSongStore({songs: this.songDetail,action: 'start'})
+            },
+            ...mapActions({updateSongStore: 'playStore/updateSongStore'})
         },
         components: {
             songs

@@ -1,15 +1,15 @@
 const playStore = {
+    namespaced: true,
     state: {
         songIndex: 0,
         songId: 0,
         songStore: [],
-        historySong: []
+        historySong: [],
+        song: {}
     },
     getters: {
         getSongId: function (state) {
             return state.songId
-            // if (state.songStore.length === 0) return 0;
-            // return state.songStore[state.songIndex].id
         },
         getSongIndex : function (state) {
             return state.songIndex
@@ -21,7 +21,7 @@ const playStore = {
           return function (index) {
                 return state.songStore[index]
           }
-        }
+        },
     },
     mutations: {
         updateSongStore: function (state,songs) {
@@ -50,6 +50,7 @@ const playStore = {
                 state.songIndex = 0;
             }
             console.log(state.songIndex)
+            state.song =  state.songStore[state.songIndex]
             state.songId = state.songStore[state.songIndex].id
         },
         updateSongId: function (state,id) {
