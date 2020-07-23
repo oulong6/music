@@ -4,11 +4,11 @@
             <div class="listen">
                <i class="iconfont icon-V"></i> {{playlist.playCount | playCount}}
             </div>
-            <div class="copywriter">
+            <div class="copywriter" v-if="playlist.copywriter">
                 {{playlist.copywriter}}
             </div>
             <div class="img">
-                <img :src="playlist.picUrl">
+                <img :src="playlist.picUrl || playlist.coverImgUrl">
                 <div class="play">
                     <i class="iconfont">
                         &#xe625;
@@ -23,7 +23,7 @@
 </template>
 <script>
     export default {
-        name: "",
+        name: "song-list",
         props: {
             songs: {
                 type: Array
@@ -90,7 +90,7 @@
                 transform: translateY(0rem);
             }
             &:hover .listen {
-                display: none;
+                /*display: none;*/
             }
             .img {
                 position: relative;

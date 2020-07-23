@@ -7,6 +7,9 @@ export const privatecontent = '/personalized/privatecontent' //独家放送
 export const getPlaylist = '/playlist/detail?id=' //获取歌单列表
 export const getSongDetail = '/song/detail?ids=' //获取歌曲详情
 export const getSongUrl = '/song/url?id=' //获取歌曲URL
+export const getLyric = '/lyric?id=' //获取歌词
+export const getPlaylistTag = '/playlist/hot' //获取歌单
+export const playList = '/top/playlist' //获取歌单
 
 export const recSongList = api + '/top/playlist' // 推荐歌单，歌单广场
 export const highquality = api + '/top/playlist/highquality' // 精品歌单

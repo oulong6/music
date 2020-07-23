@@ -5,10 +5,13 @@ import {
     privatecontent,
     getPlaylist,
     getSongDetail,
-    getSongUrl
+    getSongUrl,
+    getLyric,
+    getPlaylistTag,
+    playList
 } from './config'
 axios.defaults.withCredentials = false;
-axios.defaults.baseURL = 'http://120.77.242.209'
+axios.defaults.baseURL = 'https://api.mtnhao.com'
 
 const install = axios.create({
     baseURL: 'https://api.mtnhao.com',
@@ -39,5 +42,14 @@ export default {
     },
     getSongUrl(id){
         return install.get(getSongUrl+id)
+    },
+    getLyric(id){
+        return install.get(getLyric + id)
+    },
+    getPlaylistTag(){
+        return install.get(getPlaylistTag)
+    },
+    getPlayList(query){
+        return install.get(playList+`?${query}`)
     }
 }

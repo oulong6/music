@@ -19,7 +19,9 @@
     import sidebar from '@/components/sidebar';
     import miniPlayer from '@/components/miniPlayer'
     import player from '@/page/player';
-    import {mapGetters} from 'vuex'
+    import {mapGetters} from 'vuex';
+    import {createNamespacedHelpers} from 'vuex';
+    const {mapState} = createNamespacedHelpers('test/foo');
     export default {
         name: 'App',
         components: {
@@ -34,9 +36,11 @@
             singId(){
                 return this.$store.getters.getSongId
             },
-            ...mapGetters({isShow: 'player/isShow'})
+            ...mapGetters({isShow: 'player/isShow'}),
+            ...mapState({count: state=>state.count})
         },
         methods: {
+
         }
     }
 </script>

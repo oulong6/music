@@ -9,7 +9,7 @@
                         <img :src="song.picUrl" alt="" :class="{'rotate-active': isPlay}">
                     </div>
                 </div>
-                <div class="lyrics-box"></div>
+                <lyrics :lyrics="lyrics" :lyric-time="lyricTime" class="lyrics-box"></lyrics>
             </div>
         </div>
     </div>
@@ -19,19 +19,33 @@
     import me from '@/assets/me.png'
     import playBar from '@/assets/play-bar.png'
     import {mapState} from 'vuex'
+    import lyrics from '@/components/lyrics'
     export default {
         name: "",
         data(){
           return {
               me,
               playBar,
+              lyrics: [],
+              lyricTime: []
           }
         },
         computed: {
             ...mapState('player',{isPlay: 'isPlay'}),
             ...mapState('playStore',{song: 'song'}),
             },
-
+        watch: {
+            'song': function (song) {
+                this.$api.getLyric(song.id).then(data=>{
+                    this.lyrics = data.lrc.lyric.split(/\[\S+]/g)
+                    this.lyricTime = data.lrc.lyric.match(/\[\d{2}:\d{2}\.\d{3}]/g)
+                    this.lyrics[0] = this.song.name
+                })
+            }
+        },
+        components: {
+            lyrics
+        }
     }
 </script>
 
@@ -105,7 +119,6 @@
                 }
                 .lyrics-box {
                     flex: 3;
-                    background-color: #55a532;
                 }
             }
         }
